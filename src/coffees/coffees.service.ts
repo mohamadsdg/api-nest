@@ -29,7 +29,8 @@ export class CoffeesService {
     return coffee;
   }
   create(createCoffeeDto: any) {
-    return this.coffes.push(createCoffeeDto);
+    this.coffes.push(createCoffeeDto);
+    return createCoffeeDto;
   }
   update(id: string, updateCoffeeDto: any) {
     const exsitingCoffee = this.findOne(id);
