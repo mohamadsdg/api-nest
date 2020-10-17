@@ -20,8 +20,8 @@ export class CoffeesService {
   findAll() {
     return this.coffes;
   }
-  findOne(id: string) {
-    const coffee = this.coffes.find(coffee => coffee.id === +id);
+  findOne(id: number) {
+    const coffee = this.coffes.find(coffee => coffee.id === id);
     if (!coffee) {
       //   throw new HttpException('not found', HttpStatus.NOT_FOUND);
       throw new NotFoundException(`coffees #${id} not found`);
@@ -32,14 +32,14 @@ export class CoffeesService {
     this.coffes.push(createCoffeeDto);
     return createCoffeeDto;
   }
-  update(id: string, updateCoffeeDto: any) {
+  update(id: number, updateCoffeeDto: any) {
     const exsitingCoffee = this.findOne(id);
     if (exsitingCoffee) {
       //update the existing entry
     }
   }
-  remove(id: string) {
-    const coffeeIndex = this.coffes.findIndex(coffee => coffee.id == +id);
+  remove(id: number) {
+    const coffeeIndex = this.coffes.findIndex(coffee => coffee.id == id);
     if (coffeeIndex > 0) {
       this.coffes.splice(coffeeIndex, 1);
     }
