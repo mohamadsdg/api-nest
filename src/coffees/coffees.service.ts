@@ -18,10 +18,14 @@ export class CoffeesService {
   ) {}
 
   findAll() {
-    return this.CoffeesRepository.find();
+    return this.CoffeesRepository.find({
+      relations: ['flavors'],
+    });
   }
   async findOne(id: number) {
-    const coffee = await this.CoffeesRepository.findOne(id);
+    const coffee = await this.CoffeesRepository.findOne(id, {
+      relations: ['flavors'],
+    });
     if (!coffee) {
       //   throw new HttpException('not found', HttpStatus.NOT_FOUND);
       throw new NotFoundException(`coffees #${id} not found`);
