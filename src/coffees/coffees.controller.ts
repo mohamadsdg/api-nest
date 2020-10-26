@@ -11,6 +11,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
@@ -24,10 +25,10 @@ export class CoffeesController {
   }
 
   @Get('flavors')
-  findAll(@Query() paginationQuery) {
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
     // return `all coffee , limit:${limit}, offset:${offset}`;
-    return this.coffeesService.findAll();
+    return this.coffeesService.findAll(paginationQuery);
   }
 
   @Get(':id')
