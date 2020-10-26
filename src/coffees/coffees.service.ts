@@ -9,13 +9,24 @@ import { coffees } from './entities/coffees.entity';
 import { Repository } from 'typeorm';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
+import { Flavor } from './entities/flavor.entity';
 
 @Injectable()
 export class CoffeesService {
   constructor(
     @InjectRepository(coffees)
     private CoffeesRepository: Repository<coffees>,
+    @InjectRepository(Flavor)
+    private FlavorRepository: Repository<Flavor>,
   ) {}
+
+  private async preloadFlavorByName(name: string): Promise<Flavor> {
+    const existingFlavor = await this.FlavorRepository.findOne({ name });
+    if (existingFlavor) {
+      return existingFlavor;
+    }
+    return this.FlavorRepository.create({ name });
+  }
 
   findAll() {
     return this.CoffeesRepository.find({
@@ -32,14 +43,26 @@ export class CoffeesService {
     }
     return coffee;
   }
-  create(createCoffeeDto: CreateCoffeesDto) {
-    const coffee = this.CoffeesRepository.create(createCoffeeDto);
+  async create(createCoffeeDto: CreateCoffeesDto) {
+    const flavors = await Promise.all(
+      createCoffeeDto.flavor.map(x => this.preloadFlavorByName(x)),
+    );
+
+    const coffee = this.CoffeesRepository.create({
+      ...createCoffeeDto,
+      flavors,
+    });
     return this.CoffeesRepository.save(coffee);
   }
   async update(id: number, updateCoffeeDto: UpdateCoffeesDto) {
+    const flavors = await Promise.all(
+      updateCoffeeDto.flavor.map(x => this.preloadFlavorByName(x)),
+    );
+
     const coffee = await this.CoffeesRepository.preload({
       id: id,
       ...updateCoffeeDto,
+      flavors,
     });
     if (!coffee) {
       throw new NotFoundException(`coffees #${id} not found`);
