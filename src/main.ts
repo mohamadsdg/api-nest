@@ -10,6 +10,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       disableErrorMessages: false,
       transform: true,
+      transformOptions: {
+        // for type conversion
+        enableImplicitConversion: true,
+      },
     }),
   );
   await app.listen(3000);
