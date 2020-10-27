@@ -15,7 +15,7 @@ export class coffees {
   id: number;
 
   @Column()
-  name: string;
+  title: string;
 
   @Column()
   brand: string;
