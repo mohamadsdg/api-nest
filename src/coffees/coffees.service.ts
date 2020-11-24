@@ -1,6 +1,7 @@
 import {
   HttpException,
   HttpStatus,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
+import { COFFEE_CONSTANT } from './coffees.constant';
 
 @Injectable()
 export class CoffeesService {
@@ -21,7 +23,10 @@ export class CoffeesService {
     @InjectRepository(Flavor)
     private FlavorRepository: Repository<Flavor>,
     private connection: Connection,
-  ) {}
+    @Inject(COFFEE_CONSTANT) coffeeConst:string[],
+  ) {
+    console.log(coffeeConst)
+  }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
     const existingFlavor = await this.FlavorRepository.findOne({ name });

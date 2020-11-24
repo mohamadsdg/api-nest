@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { coffees } from './entities/coffees.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
+import { COFFEE_CONSTANT } from './coffees.constant';
 
 @Module({
   imports: [TypeOrmModule.forFeature([coffees, Flavor, Event])],
@@ -13,6 +14,10 @@ import { Event } from '../events/entities/event.entity';
     {
       provide:CoffeesService,
       useClass:CoffeesService
+    },
+    {
+      provide: COFFEE_CONSTANT,
+      useValue :['caramel','chocolate']
     }
   ],
   exports:[CoffeesService]

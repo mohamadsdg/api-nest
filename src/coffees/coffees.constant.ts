@@ -1,0 +1,1 @@
+export const COFFEE_CONSTANT = "COFFEE_CONSTANT";
