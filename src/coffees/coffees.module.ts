@@ -1,4 +1,4 @@
-import { Injectable, Module } from '@nestjs/common';
+import { Inject, Injectable, Module } from '@nestjs/common';
 import { CoffeesController } from './coffees.controller';
 import { CoffeesService } from './coffees.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { coffees } from './entities/coffees.entity';
 import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_CONSTANT } from './coffees.constant';
+import { Connection } from 'typeorm';
 
 // useClass syntaxt
 class ConfigService{}
@@ -36,13 +37,23 @@ export class CoffeBrandsFactory {
     //   provide:ConfigService,
     //   useClass : process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
     // }
-    CoffeBrandsFactory,
+    // CoffeBrandsFactory,
+    // {
+    //   provide:COFFEE_CONSTANT,
+    //   useFactory:(brandFactory:CoffeBrandsFactory)=>{
+    //    return  brandFactory.create()
+    //   },
+    //   inject:[CoffeBrandsFactory]
+    // }
     {
       provide:COFFEE_CONSTANT,
-      useFactory:(brandFactory:CoffeBrandsFactory)=>{
-       return  brandFactory.create()
+      useFactory : async (connection:Connection):Promise<string[]>=>{
+      // const coffeBrands = connection.query('SELECT * ...')
+      const coffeBrands = await Promise.resolve(['caramel','chocolate'])
+      console.log("[!] Async Factory")
+      return coffeBrands
       },
-      inject:[CoffeBrandsFactory]
+      inject:[Connection]
     }
   ],
   exports:[CoffeesService]
