@@ -7,6 +7,11 @@ import { Flavor } from './entities/flavor.entity';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_CONSTANT } from './coffees.constant';
 
+// useClass syntaxt
+class ConfigService{}
+class ProductionConfigService{}
+class DevelopmentConfigService{}
+
 @Module({
   imports: [TypeOrmModule.forFeature([coffees, Flavor, Event])],
   controllers: [CoffeesController],
@@ -18,6 +23,10 @@ import { COFFEE_CONSTANT } from './coffees.constant';
     {
       provide: COFFEE_CONSTANT,
       useValue :['caramel','chocolate']
+    },
+    {
+      provide:ConfigService,
+      useClass : process.env.NODE_ENV === 'development' ? DevelopmentConfigService : ProductionConfigService
     }
   ],
   exports:[CoffeesService]
