@@ -34,7 +34,7 @@ export class CoffeesService {
     // const db_user = this.configService.get<string>('DB_HییOST','localhost');
     // console.log(db_user)
 
-    const db_info = this.configService.get('database')
+    const db_info = this.configService.get('coffee')
     console.log(db_info)
   }
 
