@@ -4,7 +4,6 @@ import {
   Inject,
   Injectable,
   NotFoundException,
-  Scope,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { coffees } from './entities/coffees.entity';
@@ -14,7 +13,8 @@ import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { Flavor } from './entities/flavor.entity';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
-import { ConfigService } from '@nestjs/config';
+import { ConfigType } from '@nestjs/config';
+import coffeeConfig from './config/coffee.config';
 // import { COFFEE_CONSTANT } from './coffees.constant';
 
 @Injectable()
@@ -26,7 +26,8 @@ export class CoffeesService {
     private FlavorRepository: Repository<Flavor>,
     private connection: Connection,
     // @Inject(COFFEE_CONSTANT) coffeeConst:string[],
-    private readonly configService:ConfigService
+    @Inject(coffeeConfig.KEY)
+    private readonly configService:ConfigType<typeof coffeeConfig>
   ) {
     // console.log(coffeeConst)
     // console.log("instance")
@@ -34,8 +35,8 @@ export class CoffeesService {
     // const db_user = this.configService.get<string>('DB_HییOST','localhost');
     // console.log(db_user)
 
-    const db_info = this.configService.get('coffee')
-    console.log(db_info)
+    const db_foo = this.configService.foo
+    console.log(db_foo)
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
