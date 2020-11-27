@@ -5,25 +5,23 @@ import { CoffeesModule } from './coffees/coffees.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoffeeRatingModule } from './coffee-rating/coffee-rating.module';
 import { ConfigModule } from '@nestjs/config';
-// import * as Joi from '@hapi/joi';
-import appConfig from "./config/configuration";
 // import { DatabaseModule } from './database/database.module';
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      load:[appConfig]
-    }),
     CoffeesModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.DB_HOST,
-      port: +process.env.DB_PORT,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database:  process.env.DB_NAME,
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      useFactory: ()=> ({
+        type: 'postgres',
+        host: process.env.DB_HOST,
+        port: +process.env.DB_PORT,
+        username: process.env.DB_USER,
+        password: process.env.DB_PASS,
+        database:  process.env.DB_NAME,
+        autoLoadEntities: true,
+        synchronize: true,
+      })
     }),
+    ConfigModule.forRoot(),
     CoffeeRatingModule,
     // DatabaseModule.register({
     //    type: 'postgres',
