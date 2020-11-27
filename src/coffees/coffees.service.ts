@@ -4,6 +4,7 @@ import {
   Inject,
   Injectable,
   NotFoundException,
+  Scope,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { coffees } from './entities/coffees.entity';
@@ -15,7 +16,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { Event } from '../events/entities/event.entity';
 import { COFFEE_CONSTANT } from './coffees.constant';
 
-@Injectable()
+@Injectable({scope:Scope.REQUEST})
 export class CoffeesService {
   constructor(
     @InjectRepository(coffees)
@@ -26,6 +27,7 @@ export class CoffeesService {
     @Inject(COFFEE_CONSTANT) coffeeConst:string[],
   ) {
     console.log(coffeeConst)
+    console.log("instance")
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
