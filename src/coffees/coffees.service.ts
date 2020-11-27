@@ -31,8 +31,11 @@ export class CoffeesService {
     // console.log(coffeeConst)
     // console.log("instance")
 
-    const db_user = this.configService.get<string>('DB_HییOST','localhost');
-    console.log(db_user)
+    // const db_user = this.configService.get<string>('DB_HییOST','localhost');
+    // console.log(db_user)
+
+    const db_info = this.configService.get('database')
+    console.log(db_info)
   }
 
   private async preloadFlavorByName(name: string): Promise<Flavor> {
