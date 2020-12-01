@@ -14,13 +14,16 @@ import {
   ValidationPipe,
   ParseIntPipe,
   ParseUUIDPipe,
+  UseFilters,
 } from '@nestjs/common';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 
 // @UsePipes(ValidationPipe)
+@UseFilters(HttpExeptionFilter)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
