@@ -10,12 +10,17 @@ import {
   Patch,
   Delete,
   Query,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 
+// @UsePipes(ValidationPipe)
 @Controller('coffees')
 export class CoffeesController {
   constructor(private readonly coffeesService: CoffeesService) {}
@@ -23,7 +28,7 @@ export class CoffeesController {
   defualtFind(@Res() res) {
     res.status(200).send('all coffee from defualtFind');
   }
-
+  // @UsePipes(ValidationPipe)
   @Get('flavors')
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
@@ -33,7 +38,7 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number) {
+  findOne(@Param('id',ParseIntPipe) id: number) {
     // console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
