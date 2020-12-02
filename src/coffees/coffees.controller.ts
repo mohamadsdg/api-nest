@@ -15,7 +15,9 @@ import {
   ParseIntPipe,
   ParseUUIDPipe,
   UseFilters,
+  SetMetadata,
 } from '@nestjs/common';
+import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
 import { CoffeesService } from './coffees.service';
@@ -32,6 +34,8 @@ export class CoffeesController {
     res.status(200).send('all coffee from defualtFind');
   }
   // @UsePipes(ValidationPipe)
+  // @SetMetadata('isPublic',true)
+  @Public()
   @Get('flavors')
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
