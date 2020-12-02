@@ -36,7 +36,7 @@ export class CoffeesController {
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
     // return `all coffee , limit:${limit}, offset:${offset}`;
-    console.log('findAll method after instanstion ') //buble up scope
+    // console.log('findAll method after instanstion ') //buble up scope
     return this.coffeesService.findAll(paginationQuery);
   }
 

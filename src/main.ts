@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { AuthGuard } from './common/gurds/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalGuards(new AuthGuard())
   await app.listen(3000);
 }
 bootstrap();
