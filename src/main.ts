@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { WrapResposeInterceptor } from './common/interceptors/wrap-respose.interceptor';
 // import { AuthGuard } from './common/gurds/auth.guard';
 
 async function bootstrap() {
@@ -18,6 +19,7 @@ async function bootstrap() {
     }),
   );
   // app.useGlobalGuards(new AuthGuard())
+  app.useGlobalInterceptors(new WrapResposeInterceptor())
   await app.listen(3000);
 }
 bootstrap();
