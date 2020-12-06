@@ -17,6 +17,7 @@ import {
   UseFilters,
   SetMetadata,
 } from '@nestjs/common';
+import {  timeout } from 'rxjs/operators';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
@@ -45,7 +46,9 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  findOne(@Param('id',ParseIntPipe) id: number) {
+  async findOne(@Param('id',ParseIntPipe) id: number) {
+   await new Promise(resolve=>setTimeout(resolve, 1500))
+
     // console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
