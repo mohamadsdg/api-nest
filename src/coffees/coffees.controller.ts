@@ -24,6 +24,8 @@ import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
+import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
+
 
 // @UsePipes(ValidationPipe)
 @UseFilters(HttpExeptionFilter)
@@ -46,9 +48,9 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id',ParseIntPipe) id: number) {
-   await new Promise(resolve=>setTimeout(resolve, 1500))
-
+  async findOne(@Param('id',ParsIntPipeCustom) id: number) {
+    // request time out interceptor
+    // await new Promise(resolve=>setTimeout(resolve, 1500))
     // console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
