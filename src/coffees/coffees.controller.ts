@@ -26,6 +26,7 @@ import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
+import { ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
 
 
 // @UsePipes(ValidationPipe)
@@ -48,6 +49,8 @@ export class CoffeesController {
     return this.coffeesService.findAll(paginationQuery);
   }
 
+  // @ApiResponse({status:HttpStatus.FORBIDDEN,description:'Forbbiden'})
+  @ApiForbiddenResponse({description:'Forbbiden'})
   @Get(':id')
   async findOne(@Protocol('https') protocol:string, @Param('id',ParsIntPipeCustom) id: number) {
     console.log(protocol)
