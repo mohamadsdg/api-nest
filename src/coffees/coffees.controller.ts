@@ -25,6 +25,7 @@ import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
+import { Protocol } from 'src/common/decorators/protocol.decorator';
 
 
 // @UsePipes(ValidationPipe)
@@ -48,7 +49,8 @@ export class CoffeesController {
   }
 
   @Get(':id')
-  async findOne(@Param('id',ParsIntPipeCustom) id: number) {
+  async findOne(@Protocol('https') protocol:string, @Param('id',ParsIntPipeCustom) id: number) {
+    console.log(protocol)
     // request time out interceptor
     // await new Promise(resolve=>setTimeout(resolve, 1500))
     // console.log(id, typeof id);
