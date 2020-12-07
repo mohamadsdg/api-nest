@@ -11,7 +11,7 @@ export class HttpExeptionFilter<T extends HttpException> implements ExceptionFil
     const status = exception.getStatus();
     const exeptionRsp = exception.getResponse()
     const error =  typeof exeptionRsp ==='string'? {message:exeptionRsp}:exeptionRsp
-    // console.log(exception)
+    console.log('HttpExeptionFilter')
     // console.log(host)
     rsp.status(status).json({
       ...error,

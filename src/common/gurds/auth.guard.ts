@@ -10,7 +10,8 @@ export class AuthGuard implements CanActivate {
   constructor(private readonly reflector:Reflector,private readonly config:ConfigService){}
   canActivate(
     context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {    
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    console.log('AuthGuard')    
     const isPublic = this.reflector.get(IS_PUBLIC_KEY,context.getHandler()) 
     if (isPublic) return true;
     const ctx = context.switchToHttp().getRequest<Request>()
