@@ -26,9 +26,10 @@ import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
-import { ApiForbiddenResponse, ApiResponse } from '@nestjs/swagger';
+import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
+@ApiTags('Coffee')
 // @UsePipes(ValidationPipe)
 @UseFilters(HttpExeptionFilter)
 @Controller('coffees')
