@@ -26,7 +26,7 @@ import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
-import { ApiForbiddenResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiForbiddenResponse, ApiHeader, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('Coffee')
