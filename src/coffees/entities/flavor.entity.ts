@@ -1,27 +1,11 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToMany,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { coffees } from './coffees.entity';
-
-@Entity()
-export class Flavor {
-  @PrimaryGeneratedColumn()
-  id: number;
-  @Column()
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
+import { Document } from "mongoose";
+@Schema()
+export class flavor extends Document{
+  @Prop()
   name: string;
-  @ManyToMany(
-    () => coffees,
-    coffee => coffee.flavors,
-  )
-  coffees: coffees[];
-
-  @CreateDateColumn({ name: 'created_at' })
-  'created_at': Date;
-  @UpdateDateColumn({ name: 'updated_at' })
-  'updated_at': Date;
+  @Prop([String])
+  coffees: string[];
 }
+
+export const FlavorSchema = SchemaFactory.createForClass(flavor)

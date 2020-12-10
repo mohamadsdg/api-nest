@@ -4,20 +4,12 @@ import {
   Param,
   Post,
   Body,
-  HttpCode,
-  HttpStatus,
   Res,
   Patch,
   Delete,
   Query,
-  UsePipes,
-  ValidationPipe,
-  ParseIntPipe,
-  ParseUUIDPipe,
   UseFilters,
-  SetMetadata,
 } from '@nestjs/common';
-import {  timeout } from 'rxjs/operators';
 import { Public } from 'src/common/decorators/public.decorator';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
@@ -26,7 +18,7 @@ import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
 import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
-import { ApiBasicAuth, ApiForbiddenResponse, ApiHeader, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
+import {ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('Coffee')
@@ -39,14 +31,12 @@ export class CoffeesController {
   defualtFind(@Res() res) {
     res.status(200).send('all coffee from defualtFind');
   }
-  // @UsePipes(ValidationPipe)
-  // @SetMetadata('isPublic',true)
+
   @Public()
   @Get('flavors')
   findAll(@Query() paginationQuery: PaginationQueryDto) {
     // const { limit, offset } = paginationQuery;
     // return `all coffee , limit:${limit}, offset:${offset}`;
-    // console.log('findAll method after instanstion ') //buble up scope
     return this.coffeesService.findAll(paginationQuery);
   }
 
@@ -55,22 +45,17 @@ export class CoffeesController {
   @Get(':id')
   async findOne(@Protocol('https') protocol:string, @Param('id',ParsIntPipeCustom) id: number) {
     console.log(protocol)
-    // request time out interceptor
-    // await new Promise(resolve=>setTimeout(resolve, 1500))
-    // console.log(id, typeof id);
     return this.coffeesService.findOne(id);
   }
 
   @Post()
-  //   @HttpCode(HttpStatus.GONE)
   create(@Body() CreateCoffees: CreateCoffeesDto) {
-    // console.log(CreateCoffees instanceof CreateCoffeesDto);
     return this.coffeesService.create(CreateCoffees);
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() UpdateCoffeesDto: UpdateCoffeesDto) {
-    return this.coffeesService.update(id, UpdateCoffeesDto);
+  update(@Param('id') id: number, @Body() updateCoffeesDto: UpdateCoffeesDto) {
+    return this.coffeesService.update(id, updateCoffeesDto);
   }
 
   @Delete(':id')
