@@ -16,7 +16,6 @@ import { HttpExeptionFilter } from 'src/common/filter/http-exeption.filter';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeesDto } from './dto/create-coffees.dto';
 import { UpdateCoffeesDto } from './dto/update-coffees.dto';
-import { ParsIntPipeCustom } from 'src/common/pipes/pars-int.pipe';
 import { Protocol } from 'src/common/decorators/protocol.decorator';
 import {ApiForbiddenResponse, ApiTags } from '@nestjs/swagger';
 
@@ -43,7 +42,7 @@ export class CoffeesController {
   // @ApiResponse({status:HttpStatus.FORBIDDEN,description:'Forbbiden'})
   @ApiForbiddenResponse({description:'Forbbiden'})
   @Get(':id')
-  async findOne(@Protocol('https') protocol:string, @Param('id',ParsIntPipeCustom) id: number) {
+  async findOne(@Protocol('https') protocol:string, @Param('id') id: string) {
     console.log(protocol)
     return this.coffeesService.findOne(id);
   }
@@ -54,12 +53,12 @@ export class CoffeesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateCoffeesDto: UpdateCoffeesDto) {
+  update(@Param('id') id: string, @Body() updateCoffeesDto: UpdateCoffeesDto) {
     return this.coffeesService.update(id, updateCoffeesDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: number) {
+  remove(@Param('id') id: string) {
     return this.coffeesService.remove(id);
   }
 }
